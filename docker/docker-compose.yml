@@ -1,0 +1,52 @@
+version: '3'
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    volumes:
+      - ..:/var/www/html
+      - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    networks:
+      - my-network
+    depends_on:
+      - mariadb
+
+  mariadb:
+    build:
+      context: .
+      dockerfile: Dockerfile.mariadb
+    networks:
+      - my-network
+    ports:
+      - "3306:3306"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 443:443
+    volumes:
+      - ..:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/ssl
+    networks:
+      - my-network
+    depends_on:
+      - php
+
+  vite:
+    image: node:alpine
+    entrypoint: "/usr/local/bin/entrypoint.sh"
+    volumes:
+       - ..:/app
+       - ./vite/run-vite.sh:/usr/local/bin/entrypoint.sh
+    working_dir: /app
+    ports:
+      - 5173:5173
+    depends_on:
+      - php
+      - nginx
+    tty: true
+
+networks:
+  my-network:
