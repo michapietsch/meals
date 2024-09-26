@@ -1,6 +1,13 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import Welcome from '@/Components/Welcome.vue';
+import MealModel from "@/Objects/Meal";
+import Meal from "@/Components/Meals/Meal.vue";
+
+const props = defineProps({
+    meal: Object,
+});
+
+const mealObject = new MealModel(props.meal.id, props.meal.title, props.meal.dishes);
 </script>
 
 <template>
@@ -14,7 +21,7 @@ import Welcome from '@/Components/Welcome.vue';
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-                    <Welcome />
+                    <Meal :meal="mealObject" />
                 </div>
             </div>
         </div>

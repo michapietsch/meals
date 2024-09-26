@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\IngredientModel;
+use App\Objects\Meal;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,6 +21,15 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard', [
+            'meal' => new Meal(\App\Models\MealModel::first()),
+        ]);
     })->name('dashboard');
+
+    Route::get('/meals/{meal}/dishes/create', function ($meal) {
+        return Inertia::render('Meals/Dishes/Create', [
+            // 'meal' => new MealModel($meal),
+            'ingredients' => IngredientModel::all(),
+        ]);
+    })->name('meals.dishes.create');
 });
