@@ -1,0 +1,9 @@
+- [] configure Prettier and PHP CS Fixer
+- [] delete dish from meal
+- [] add existing dish to meal: increase count
+- [] filter suggested dish names as I type
+- [] close dropdown when focus is lost
+- [] suggest existing units
+- [] sort suggestions by frequency of use
+- [] list meals with pagination
+- [] maybe use a full-text search engine for suggestions

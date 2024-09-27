@@ -17,10 +17,11 @@ const form = useForm({
 });
 
 const createDish = () => {
-    form.post(route('meals.dishes.store'), {
-        errorBag: 'createDish',
-        preserveScroll: true,
-    });
+    form.post(route('meals.dishes.store', route().params.meal),
+{
+            errorBag: 'createDish',
+            preserveScroll: true,
+        });
 };
 </script>
 

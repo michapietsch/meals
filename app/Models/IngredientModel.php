@@ -10,4 +10,6 @@ class IngredientModel extends Model
     use HasFactory;
 
     protected $table = 'ingredients';
+
+    protected $guarded = [];
 }

@@ -21,15 +21,9 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard', [
-            'meal' => new Meal(\App\Models\MealModel::first()),
-        ]);
+        return redirect(route('meals.show', \App\Models\MealModel::first()));
     })->name('dashboard');
 
-    Route::get('/meals/{meal}/dishes/create', function ($meal) {
-        return Inertia::render('Meals/Dishes/Create', [
-            // 'meal' => new MealModel($meal),
-            'ingredients' => IngredientModel::all(),
-        ]);
-    })->name('meals.dishes.create');
+    Route::resource('meals', \App\Http\Controllers\MealsController::class);
+    Route::resource('meals.dishes', \App\Http\Controllers\MealDishesController::class);
 });

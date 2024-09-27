@@ -8,8 +8,8 @@ class Dish
 {
     public readonly int $id;
     public readonly string $name;
-    public readonly string $unit;
-    public readonly float $amount;
+    public readonly ?string $unit;
+    public readonly ?float $amount;
 
     public function __construct(IngredientModel $ingredient)
     {
