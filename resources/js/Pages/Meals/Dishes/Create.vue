@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import CreateDishForm from '@/Pages/Meals/Dishes/Partials/CreateDishForm.vue';
+import BackButton from "@/Components/BackButton.vue";
 </script>
 
 <template>
@@ -13,7 +14,9 @@ import CreateDishForm from '@/Pages/Meals/Dishes/Partials/CreateDishForm.vue';
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <CreateDishForm />
+                <BackButton/>
+
+                <CreateDishForm/>
             </div>
         </div>
     </AppLayout>

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import {computed, onMounted, onUnmounted, ref} from 'vue';
 
 const props = defineProps({
     align: {
@@ -20,6 +20,12 @@ let open = ref(false);
 
 const closeOnEscape = (e) => {
     if (open.value && e.key === 'Escape') {
+        open.value = false;
+    }
+};
+
+const close = () => {
+    if (open.value) {
         open.value = false;
     }
 };
@@ -51,11 +57,11 @@ const alignmentClasses = computed(() => {
 <template>
     <div class="relative">
         <div @click="open = ! open">
-            <slot name="trigger" />
+            <slot name="trigger" :close="close"/>
         </div>
 
         <!-- Full Screen Dropdown Overlay -->
-        <div v-show="open" class="fixed inset-0 z-40" @click="open = false" />
+        <div v-show="open" class="fixed inset-0 z-40" @click="open = false"/>
 
         <transition
             enter-active-class="transition ease-out duration-200"
@@ -73,7 +79,7 @@ const alignmentClasses = computed(() => {
                 @click="open = false"
             >
                 <div class="rounded-md ring-1 ring-black ring-opacity-5" :class="contentClasses">
-                    <slot name="content" />
+                    <slot name="content"/>
                 </div>
             </div>
         </transition>

@@ -1,5 +1,6 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import {computed} from 'vue';
+import {useForm, usePage} from '@inertiajs/vue3';
 import FormSection from '@/Components/FormSection.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -7,6 +8,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
+import BackButton from "@/Components/BackButton.vue";
 
 const form = useForm({
     type: 'ingredient',
@@ -16,9 +18,15 @@ const form = useForm({
     unit: '',
 });
 
+const page = usePage()
+
+const ingredients = computed(() => {
+    return page.props.ingredients.filter(ingredient => form.name === '' || ingredient.name.toLowerCase().includes(form.name.toLowerCase()));
+});
+
 const createDish = () => {
     form.post(route('meals.dishes.store', route().params.meal),
-{
+        {
             errorBag: 'createDish',
             preserveScroll: true,
         });
@@ -37,31 +45,35 @@ const createDish = () => {
 
         <template #form>
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Name"/>
 
                 <Dropdown align="left" width="full">
-                    <template #trigger>
+                    <template #trigger="{close}">
                         <TextInput
                             id="name"
                             v-model="form.name"
                             type="text"
                             class="block w-full mt-1"
                             autofocus
+                            @blur="close"
                         />
                     </template>
 
                     <template #content>
-                        <DropdownLink as="a" v-for="ingredient in $page.props.ingredients" @click="form.name = ingredient.name; form.id = ingredient.id" :key="ingredient.id">
-                            {{ ingredient.name }} <span class="inline-block ml-2 bg-amber-500 rounded px-1 py-0.5 text-white">ingredient</span>
+                        <DropdownLink as="a" v-for="ingredient in ingredients"
+                                      @click="form.name = ingredient.name; form.id = ingredient.id"
+                                      :key="ingredient.id">
+                            {{ ingredient.name }} <span
+                            class="inline-block ml-2 bg-amber-500 rounded px-1 py-0.5 text-white">ingredient</span>
                         </DropdownLink>
                     </template>
                 </Dropdown>
 
-                <InputError :message="form.errors.name" class="mt-2" />
+                <InputError :message="form.errors.name" class="mt-2"/>
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="amount" value="Amount" />
+                <InputLabel for="amount" value="Amount"/>
 
                 <TextInput
                     id="amount"
@@ -71,11 +83,11 @@ const createDish = () => {
                     autofocus
                 />
 
-                <InputError :message="form.errors.amount" class="mt-2" />
+                <InputError :message="form.errors.amount" class="mt-2"/>
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="unit" value="Unit" />
+                <InputLabel for="unit" value="Unit"/>
 
                 <TextInput
                     id="unit"
@@ -85,7 +97,7 @@ const createDish = () => {
                     autofocus
                 />
 
-                <InputError :message="form.errors.unit" class="mt-2" />
+                <InputError :message="form.errors.unit" class="mt-2"/>
             </div>
         </template>
 

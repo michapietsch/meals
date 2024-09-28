@@ -1,9 +1,10 @@
 <script setup>
-import {Link} from '@inertiajs/vue3'
+import {Link, useForm} from '@inertiajs/vue3'
 
 import Icon from '@/Components/Icon.vue'
 
 import MealModel from "@/Objects/Meal";
+import DangerButton from "@/Components/DangerButton.vue";
 
 const props = defineProps({
     meal: {
@@ -14,6 +15,20 @@ const props = defineProps({
         },
     },
 });
+
+const form = useForm({});
+
+const deleteDish = (dish) => {
+    form.delete(route('meals.dishes.ingredients.destroy', {
+        meal: props.meal.id,
+        ingredient: dish.id,
+    }), {
+        preserveScroll: true,
+        onSuccess: () => {
+
+        },
+    })
+}
 </script>
 
 <template>
@@ -30,16 +45,24 @@ const props = defineProps({
             <thead>
             <tr class="text-left font-bold">
                 <th class="pb-4 pt-6 px-6" colspan="2">Dishes</th>
+
+                <th/>
             </tr>
             </thead>
 
             <tbody>
-            <tr v-for="dish in meal.dishes" :key="dish.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+            <tr v-for="dish in meal.dishes" :key="dish.id" class="hover:bg-gray-100 focus-within:bg-gray-100 group">
                 <td class="border-t">
                     <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/dishes/${dish.id}/edit`">
                         {{ dish.amount }} {{ dish.unit }} {{ dish.amount && dish.unit ? 'of' : '' }} {{ dish.name }}
                         <icon v-if="dish.deleted_at" name="trash" class="shrink-0 ml-2 w-3 h-3 fill-gray-400"/>
                     </Link>
+                </td>
+
+                <td class="w-px border-t">
+                    <DangerButton class="hidden group-hover:block" @click="() => deleteDish(dish)">
+                        Remove
+                    </DangerButton>
                 </td>
 
                 <td class="w-px border-t">
@@ -50,7 +73,7 @@ const props = defineProps({
             </tr>
 
             <tr v-if="meal.dishes.length === 0">
-                <td class="px-6 py-4 border-t" colspan="4">No dishes, yet.</td>
+                <td class="px-6 py-4 border-t" colspan="3">No dishes, yet.</td>
             </tr>
             </tbody>
         </table>
@@ -59,7 +82,7 @@ const props = defineProps({
     <div class="flex items-center justify-between ml-6 mt-4 mb-6">
         <Link class="btn-indigo" :href="`/meals/${meal.id}/dishes/create`">
             <span>Add</span>
-            
+
             <span class="hidden md:inline">&nbsp;a dish</span>
         </Link>
     </div>
