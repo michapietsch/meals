@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Objects\Dish;
+use App\Objects\Composable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -19,10 +19,22 @@ class MealModel extends Model
 
     public function dishes(): Collection
     {
-        $ingredients = IngredientModel::whereIn('id', collect($this->dishes)->pluck('id'))->get();
+        $ingredients = IngredientModel::whereIn('id', collect($this->dishes)->where('type', 'ingredient')->pluck('id'))->get();
+        $recipes = RecipeModel::whereIn('id', collect($this->dishes)->where('type', 'recipe')->pluck('id'))->get();
 
-        return collect($this->dishes)->map(function ($dish) use ($ingredients) {
-            return new Dish($ingredients->find($dish['id']));
+        return collect($this->dishes)->map(function ($dish) use ($ingredients, $recipes) {
+            $collectionToSearch =
+                match($dish['type']) {
+                    'ingredient' => $ingredients,
+                    'recipe' => $recipes
+                };
+
+            return new Composable(
+                $collectionToSearch
+                ->find($dish['id']),
+                $dish['type'] === 'recipe' ? $dish['amount'] : null,
+                $dish['type'] === 'recipe' ? $dish['unit'] : null
+            );
         });
     }
 }

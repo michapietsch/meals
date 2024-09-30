@@ -1,9 +1,12 @@
 - [x] configure Prettier and PHP CS Fixer
 - [x] delete dish from meal
+- [] don't save unit and amount into meal in the case of ingredients
 - [] add existing dish to meal: increase count
 - [x] filter suggested dish names as I type
 - [x] close dropdown when focus is lost
 - [] suggest existing units
 - [] sort suggestions by frequency of use
+- [] sort units by most often used with ingredient
 - [] list meals with pagination
 - [] maybe use a full-text search engine for suggestions
+- [] use AI to add or remove a trailing "s" depending on amount and unit when displaying ingredients

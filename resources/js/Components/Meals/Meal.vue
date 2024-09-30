@@ -19,9 +19,10 @@ const props = defineProps({
 const form = useForm({});
 
 const deleteDish = (dish) => {
-    form.delete(route('meals.dishes.ingredients.destroy', {
+    form.delete(route(`meals.dishes.destroy`, {
         meal: props.meal.id,
-        ingredient: dish.id,
+        type: dish.type,
+        id: dish.id,
     }), {
         preserveScroll: true,
         onSuccess: () => {
@@ -53,10 +54,19 @@ const deleteDish = (dish) => {
             <tbody>
             <tr v-for="dish in meal.dishes" :key="dish.id" class="hover:bg-gray-100 focus-within:bg-gray-100 group">
                 <td class="border-t">
-                    <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/dishes/${dish.id}/edit`">
+                    <button class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/dishes/${dish.id}/edit`">
                         {{ dish.amount }} {{ dish.unit }} {{ dish.amount && dish.unit ? 'of' : '' }} {{ dish.name }}
                         <icon v-if="dish.deleted_at" name="trash" class="shrink-0 ml-2 w-3 h-3 fill-gray-400"/>
-                    </Link>
+
+                        <Link
+                            v-if="dish.type === 'recipe'"
+                            class="underline text-indigo-500 ml-4"
+                            :href="`/recipes/${dish.id}`"
+                        >
+                            show recipe
+                        </Link>
+
+                    </button>
                 </td>
 
                 <td class="w-px border-t">

@@ -18,6 +18,6 @@ class Meal
 
         $this->dishes = $meal->dishes();
 
-        throw_unless($this->dishes->every(fn ($dish) => $dish instanceof Dish));
+        throw_unless($this->dishes->every(fn ($dish) => $dish instanceof Composable));
     }
 }

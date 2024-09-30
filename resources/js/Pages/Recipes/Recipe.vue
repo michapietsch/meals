@@ -1,0 +1,31 @@
+<script setup>
+import AppLayout from '@/Layouts/AppLayout.vue';
+import RecipeModel from "@/Objects/Recipe";
+import Recipe from "@/Components/Meals/Recipe.vue";
+import {computed} from "vue";
+
+const props = defineProps({
+    recipe: Object,
+});
+
+const recipeObject = computed(() => new RecipeModel(props.recipe.id, props.recipe.title, props.recipe.ingredients));
+
+</script>
+
+<template>
+    <AppLayout title="Recipe">
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                Recipe
+            </h2>
+        </template>
+
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
+                    <Recipe :recipe="recipeObject"/>
+                </div>
+            </div>
+        </div>
+    </AppLayout>
+</template>

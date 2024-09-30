@@ -4,9 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\IngredientModel;
 use App\Models\MealModel;
+use App\Models\RecipeModel;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,10 +19,11 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->withPersonalTeam()->create();
 
-//        User::factory()->withPersonalTeam()->create([
-//            'name' => 'Test User',
-//            'email' => 'test@example.com',
-//        ]);
+        User::factory()->withPersonalTeam()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => Hash::make('password'),
+        ]);
 
         $ingredientBowlOfCereals = IngredientModel::create([
             'name' => 'cereals',
@@ -54,6 +57,52 @@ class DatabaseSeeder extends Seeder
                 [
                     'type' => 'ingredient',
                     'id' => $ingredientApple->id,
+                ],
+            ],
+        ]);
+
+        RecipeModel::create([
+            'title' => 'pizza dough',
+            'ingredients' => [
+                [
+                    'type' => 'ingredient',
+                    'id' => IngredientModel::create([
+                        'name' => 'flour',
+                        'unit' => 'g',
+                        'amount' => 450,
+                    ])->id,
+                ],
+                [
+                    'type' => 'ingredient',
+                    'id' => IngredientModel::create([
+                        'name' => 'water',
+                        'unit' => 'ml',
+                        'amount' => 250,
+                    ])->id,
+                ],
+                [
+                    'type' => 'ingredient',
+                    'id' => IngredientModel::create([
+                        'name' => 'salt',
+                        'unit' => 'teaspoon',
+                        'amount' => 1,
+                    ])->id,
+                ],
+                [
+                    'type' => 'ingredient',
+                    'id' => IngredientModel::create([
+                        'name' => 'olive oil',
+                        'unit' => 'tablespoon',
+                        'amount' => 3,
+                    ])->id,
+                ],
+                [
+                    'type' => 'ingredient',
+                    'id' => IngredientModel::create([
+                        'name' => 'dry yeast',
+                        'unit' => 'package',
+                        'amount' => 1,
+                    ])->id,
                 ],
             ],
         ]);

@@ -8,7 +8,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
-import BackButton from "@/Components/BackButton.vue";
 
 const form = useForm({
     type: 'ingredient',
@@ -20,8 +19,11 @@ const form = useForm({
 
 const page = usePage()
 
-const ingredients = computed(() => {
-    return page.props.ingredients.filter(ingredient => form.name === '' || ingredient.name.toLowerCase().includes(form.name.toLowerCase()));
+const dishes = computed(() => {
+    return [
+        ...page.props.composables.filter(ingredient => form.name === '' || ingredient.name.toLowerCase().includes(form.name.toLowerCase())),
+        // ...page.props.recipes.filter(recipe => form.name === '' || recipe.name.toLowerCase().includes(form.name.toLowerCase()))
+    ];
 });
 
 const createDish = () => {
@@ -60,11 +62,13 @@ const createDish = () => {
                     </template>
 
                     <template #content>
-                        <DropdownLink as="a" v-for="ingredient in ingredients"
-                                      @click="form.name = ingredient.name; form.id = ingredient.id"
-                                      :key="ingredient.id">
-                            {{ ingredient.name }} <span
-                            class="inline-block ml-2 bg-amber-500 rounded px-1 py-0.5 text-white">ingredient</span>
+                        <DropdownLink as="a" v-for="dish in dishes"
+                                      @click="form.name = dish.name; form.id = dish.id; form.type = dish.type"
+                                      :key="dish.id">
+                            {{ dish.name }} <span
+                            class="inline-block ml-2 bg-amber-500 rounded px-1 py-0.5 text-white">
+                                {{ dish.type }}
+                        </span>
                         </DropdownLink>
                     </template>
                 </Dropdown>
