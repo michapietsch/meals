@@ -12,8 +12,6 @@ return new class () extends Migration {
 
             $table->string('title');
 
-            $table->json('ingredients');
-
             $table->timestamps();
         });
     }

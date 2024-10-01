@@ -4,20 +4,18 @@ namespace App\Objects;
 
 use App\Models\IngredientModel;
 
-class Ingredient
+readonly class Ingredient implements ComposableInterface
 {
-    public readonly string $type;
-    public readonly int $id;
-    public readonly string $name;
-    public readonly ?string $unit;
-    public readonly ?float $amount;
-
-    public function __construct(IngredientModel $ingredient)
+    public static function fromModel(IngredientModel $ingredient, ?float $amount, ?string $unit): self
     {
-        $this->type = 'ingredient';
-        $this->id = $ingredient->id;
-        $this->name = $ingredient->name;
-        $this->unit = $ingredient->unit;
-        $this->amount = $ingredient->amount;
+        return new self($ingredient->id, $ingredient->title, $amount, $unit);
+    }
+
+    public function __construct(
+        public ?int $id,
+        public string $title,
+        public ?float $amount,
+        public ?string $unit,
+    ) {
     }
 }

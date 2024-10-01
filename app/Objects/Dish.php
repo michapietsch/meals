@@ -4,7 +4,7 @@ namespace App\Objects;
 
 use App\Models\IngredientModel;
 
-class Dish
+class Dish implements ComposableInterface
 {
     public readonly string $type;
     public readonly int $id;

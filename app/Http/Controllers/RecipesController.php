@@ -11,7 +11,7 @@ class RecipesController extends Controller
     public function show(RecipeModel $recipe)
     {
         return Inertia::render('Recipes/Recipe', [
-            'recipe' => new Recipe($recipe),
+            'recipe' => Recipe::fromModel($recipe),
         ]);
     }
 }

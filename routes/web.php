@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\IngredientModel;
-use App\Objects\Meal;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,4 +27,5 @@ Route::middleware([
     Route::resource('meals.dishes', \App\Http\Controllers\MealDishesController::class)->except(['destroy']);
     Route::delete('meals/{meal}/dishes/{type}/{id}', [\App\Http\Controllers\MealDishIngredientController::class, 'destroy'])->name('meals.dishes.destroy');
     Route::resource('recipes', \App\Http\Controllers\RecipesController::class);
+    Route::resource('recipes.composables', \App\Http\Controllers\RecipeComposablesController::class);
 });

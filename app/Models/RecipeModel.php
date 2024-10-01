@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Objects\Dish;
 use App\Objects\Ingredient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 
 class RecipeModel extends Model
@@ -13,6 +13,8 @@ class RecipeModel extends Model
     use HasFactory;
 
     protected $table = 'recipes';
+
+    protected $guarded = [];
 
     protected $casts = [
         'ingredients' => 'array',
@@ -25,5 +27,11 @@ class RecipeModel extends Model
         return collect($this->ingredients)->map(function ($ingredient) use ($ingredientModels) {
             return new Ingredient($ingredientModels->find($ingredient['id']));
         });
+    }
+
+    public function composition(): MorphMany
+    {
+        return $this->morphMany(CompositionModel::class, 'parent')
+            ->with('composable');
     }
 }

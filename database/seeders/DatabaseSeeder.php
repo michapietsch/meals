@@ -26,19 +26,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $ingredientBowlOfCereals = IngredientModel::create([
-            'name' => 'cereals',
+            'title' => 'cereals',
             'unit' => 'small bowl',
             'amount' => 1,
         ]);
 
         $ingredientCoffee = IngredientModel::create([
-            'name' => 'hot coffee',
+            'title' => 'hot coffee',
             'unit' => 'cup',
             'amount' => 1,
         ]);
 
         $ingredientApple = IngredientModel::create([
-            'name' => 'apple',
+            'title' => 'apple',
             'unit' => 'piece',
             'amount' => 1,
         ]);
@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'type' => 'ingredient',
                     'id' => IngredientModel::create([
-                        'name' => 'flour',
+                        'title' => 'flour',
                         'unit' => 'g',
                         'amount' => 450,
                     ])->id,
@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'type' => 'ingredient',
                     'id' => IngredientModel::create([
-                        'name' => 'water',
+                        'title' => 'water',
                         'unit' => 'ml',
                         'amount' => 250,
                     ])->id,
@@ -83,7 +83,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'type' => 'ingredient',
                     'id' => IngredientModel::create([
-                        'name' => 'salt',
+                        'title' => 'salt',
                         'unit' => 'teaspoon',
                         'amount' => 1,
                     ])->id,
@@ -91,7 +91,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'type' => 'ingredient',
                     'id' => IngredientModel::create([
-                        'name' => 'olive oil',
+                        'title' => 'olive oil',
                         'unit' => 'tablespoon',
                         'amount' => 3,
                     ])->id,
@@ -99,7 +99,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'type' => 'ingredient',
                     'id' => IngredientModel::create([
-                        'name' => 'dry yeast',
+                        'title' => 'dry yeast',
                         'unit' => 'package',
                         'amount' => 1,
                     ])->id,
