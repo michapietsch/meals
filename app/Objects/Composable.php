@@ -10,7 +10,7 @@ class Composable
 {
     public readonly string $type;
     public readonly int $id;
-    public readonly string $name;
+    public readonly string $title;
     public readonly ?string $unit;
     public readonly ?float $amount;
 
@@ -26,9 +26,9 @@ class Composable
                 RecipeModel::class => 'recipe',
             };
         $this->id = $composable->id;
-        $this->name =
+        $this->title =
             match($this->type) {
-                'ingredient' => $composable->name,
+                'ingredient' => $composable->title,
                 'recipe' => $composable->title
             };
         $this->unit =  $unit ?? $composable->unit;

@@ -19,9 +19,9 @@ const props = defineProps({
 const form = useForm({});
 
 const deleteIngredient = (ingredient) => {
-    form.delete(route('recipes.ingredients.destroy', {
+    form.delete(route('recipes.composables.destroy', {
         recipe: props.recipe.id,
-        ingredient: ingredient.id,
+        composable: ingredient.id,
     }), {
         preserveScroll: true,
         onSuccess: () => {
@@ -51,13 +51,13 @@ const deleteIngredient = (ingredient) => {
             </thead>
 
             <tbody>
-            <tr v-for="ingredient in recipe.ingredients" :key="ingredient.id"
+            <tr v-for="ingredient in recipe.composition" :key="ingredient.id"
                 class="hover:bg-gray-100 focus-within:bg-gray-100 group">
                 <td class="border-t">
                     <Link class="flex items-center px-6 py-4 focus:text-indigo-500"
                           :href="`/ingredients/${ingredient.id}/edit`">
                         {{ ingredient.amount }} {{ ingredient.unit }}
-                        {{ ingredient.amount && ingredient.unit ? 'of' : '' }} {{ ingredient.name }}
+                        {{ ingredient.amount && ingredient.unit ? 'of' : '' }} {{ ingredient.composable.title }}
                         <icon v-if="ingredient.deleted_at" name="trash" class="shrink-0 ml-2 w-3 h-3 fill-gray-400"/>
                     </Link>
                 </td>
@@ -75,7 +75,7 @@ const deleteIngredient = (ingredient) => {
                 </td>
             </tr>
 
-            <tr v-if="recipe.ingredients.length === 0">
+            <tr v-if="recipe.composition.length === 0">
                 <td class="px-6 py-4 border-t" colspan="3">No ingredients, yet.</td>
             </tr>
             </tbody>
@@ -83,7 +83,7 @@ const deleteIngredient = (ingredient) => {
     </div>
 
     <div class="flex items-center justify-between ml-6 mt-4 mb-6">
-        <Link class="btn-indigo" :href="`/recipes/${recipe.id}/ingredients/create`">
+        <Link class="btn-indigo" :href="`/recipes/${recipe.id}/composables/create`">
             <span>Add</span>
 
             <span class="hidden md:inline">&nbsp;an ingredient</span>

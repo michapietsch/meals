@@ -11,7 +11,7 @@ class RecipesController extends Controller
     public function show(RecipeModel $recipe)
     {
         return Inertia::render('Recipes/Recipe', [
-            'recipe' => Recipe::fromModel($recipe),
+            'recipe' => $recipe->load('composition.composable'),
         ]);
     }
 }

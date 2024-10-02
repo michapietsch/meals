@@ -61,50 +61,51 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        RecipeModel::create([
+        $recipe = RecipeModel::create([
             'title' => 'pizza dough',
-            'ingredients' => [
-                [
-                    'type' => 'ingredient',
-                    'id' => IngredientModel::create([
-                        'title' => 'flour',
-                        'unit' => 'g',
-                        'amount' => 450,
-                    ])->id,
-                ],
-                [
-                    'type' => 'ingredient',
-                    'id' => IngredientModel::create([
-                        'title' => 'water',
-                        'unit' => 'ml',
-                        'amount' => 250,
-                    ])->id,
-                ],
-                [
-                    'type' => 'ingredient',
-                    'id' => IngredientModel::create([
-                        'title' => 'salt',
-                        'unit' => 'teaspoon',
-                        'amount' => 1,
-                    ])->id,
-                ],
-                [
-                    'type' => 'ingredient',
-                    'id' => IngredientModel::create([
-                        'title' => 'olive oil',
-                        'unit' => 'tablespoon',
-                        'amount' => 3,
-                    ])->id,
-                ],
-                [
-                    'type' => 'ingredient',
-                    'id' => IngredientModel::create([
-                        'title' => 'dry yeast',
-                        'unit' => 'package',
-                        'amount' => 1,
-                    ])->id,
-                ],
-            ],
         ]);
+
+        //            'composition' => [
+        //                [
+        //                    'type' => 'ingredient',
+        //                    'id' => IngredientModel::create([
+        //                        'title' => 'flour',
+        //                        'unit' => 'g',
+        //                        'amount' => 450,
+        //                    ])->id,
+        //                ],
+        //                [
+        //                    'type' => 'ingredient',
+        //                    'id' => IngredientModel::create([
+        //                        'title' => 'water',
+        //                        'unit' => 'ml',
+        //                        'amount' => 250,
+        //                    ])->id,
+        //                ],
+        //                [
+        //                    'type' => 'ingredient',
+        //                    'id' => IngredientModel::create([
+        //                        'title' => 'salt',
+        //                        'unit' => 'teaspoon',
+        //                        'amount' => 1,
+        //                    ])->id,
+        //                ],
+        //                [
+        //                    'type' => 'ingredient',
+        //                    'id' => IngredientModel::create([
+        //                        'title' => 'olive oil',
+        //                        'unit' => 'tablespoon',
+        //                        'amount' => 3,
+        //                    ])->id,
+        //                ],
+        //                [
+        //                    'type' => 'ingredient',
+        //                    'id' => IngredientModel::create([
+        //                        'title' => 'dry yeast',
+        //                        'unit' => 'package',
+        //                        'amount' => 1,
+        //                    ])->id,
+        //                ],
+        //            ],
     }
 }

@@ -8,8 +8,10 @@ const props = defineProps({
     recipe: Object,
 });
 
-const recipeObject = computed(() => new RecipeModel(props.recipe.id, props.recipe.title, props.recipe.ingredients));
-
+const recipeObject = computed(() =>
+        props.recipe
+    //new RecipeModel(props.recipe.id, props.recipe.title, props.recipe.composition)
+);
 </script>
 
 <template>

@@ -2,13 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CompositionModel;
 use App\Models\IngredientModel;
-use App\Models\MealModel;
 use App\Models\RecipeModel;
+use App\Objects\Composable;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RecipeComposablesController
 {
-    public function store(Request $request, MealModel $meal)
+    public function create(RecipeModel $recipe)
+    {
+        return Inertia::render('Recipes/Composables/Create', [
+            'composables' => collect([
+                ...IngredientModel::all()->mapInto(Composable::class),
+//                ...RecipeModel::all()->mapInto(Composable::class),
+            ])
+        ]);
+    }
+
+    public function store(Request $request, RecipeModel $recipe)
     {
         $data = $request->validate([
             'type' => 'required|string|in:ingredient,recipe',
@@ -18,31 +31,24 @@ class RecipeComposablesController
             'unit' => 'nullable|string|max:255',
         ]);
 
-        if ($data['type'] === 'ingredient') {
-            $composable =
-                IngredientModel::firstOrCreate(
-                    ['id' => $data['id']],
-                    [
-                        'name' => $data['name'],
-                        'amount' => $data['amount'],
-                        'unit' => $data['unit'],
-                    ]
-                );
-        }
-
-        if ($data['type'] === 'recipe') {
-            $composable = RecipeModel::find($data['id']);
-        }
-
-        $meal->dishes = [...$meal->dishes, [
-            'type' => $data['type'],
-            'id' => $composable->id,
+        CompositionModel::create([
+            'parent_id' => $recipe->id,
+            'parent_type' => 'recipe',
+            'composable_id' => IngredientModel::create([
+                'title' => $data['name'],
+            ])->id,
+            'composable_type' => $data['type'],
             'amount' => $data['amount'],
             'unit' => $data['unit'],
-        ]];
+        ]);
 
-        $meal->save();
+        return redirect()->route('recipes.show', $recipe);
+    }
 
-        return redirect()->route('meals.show', $meal);
+    public function destroy(RecipeModel $recipe, CompositionModel $composable)
+    {
+        $composable->delete();
+
+        return redirect()->back();
     }
 }
