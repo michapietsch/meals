@@ -4,6 +4,7 @@
 - [] add existing dish to meal: increase count
 - [x] filter suggested dish names as I type
 - [x] close dropdown when focus is lost
+- [] don't allow to select a recipe as a composable for itself
 - [] suggest existing units
 - [] sort suggestions by frequency of use
 - [] sort units by most often used with ingredient

@@ -16,7 +16,7 @@ class RecipeComposablesController
         return Inertia::render('Recipes/Composables/Create', [
             'composables' => collect([
                 ...IngredientModel::all()->mapInto(Composable::class),
-//                ...RecipeModel::all()->mapInto(Composable::class),
+                ...RecipeModel::all()->mapInto(Composable::class),
             ])
         ]);
     }
@@ -31,16 +31,12 @@ class RecipeComposablesController
             'unit' => 'nullable|string|max:255',
         ]);
 
-        CompositionModel::create([
-            'parent_id' => $recipe->id,
-            'parent_type' => 'recipe',
-            'composable_id' => IngredientModel::create([
-                'title' => $data['name'],
-            ])->id,
-            'composable_type' => $data['type'],
-            'amount' => $data['amount'],
-            'unit' => $data['unit'],
-        ]);
+        [ $id, $name, $amount, $unit ] = [$data['id'], $data['name'], $data['amount'], $data['unit']];
+
+        match($data['type']) {
+            'ingredient' => $recipe->composeIngredient($id, $name, $amount, $unit),
+            'recipe' => $recipe->composeRecipe($id, $amount, $unit),
+        };
 
         return redirect()->route('recipes.show', $recipe);
     }

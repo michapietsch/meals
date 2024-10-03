@@ -54,12 +54,20 @@ const deleteIngredient = (ingredient) => {
             <tr v-for="ingredient in recipe.composition" :key="ingredient.id"
                 class="hover:bg-gray-100 focus-within:bg-gray-100 group">
                 <td class="border-t">
-                    <Link class="flex items-center px-6 py-4 focus:text-indigo-500"
-                          :href="`/ingredients/${ingredient.id}/edit`">
+                    <button class="flex items-center px-6 py-4 focus:text-indigo-500"
+                            :href="`/ingredients/${ingredient.id}/edit`">
                         {{ ingredient.amount }} {{ ingredient.unit }}
                         {{ ingredient.amount && ingredient.unit ? 'of' : '' }} {{ ingredient.composable.title }}
                         <icon v-if="ingredient.deleted_at" name="trash" class="shrink-0 ml-2 w-3 h-3 fill-gray-400"/>
-                    </Link>
+
+                        <Link
+                            v-if="ingredient.composable_type === 'recipe'"
+                            class="underline text-indigo-500 ml-4"
+                            :href="`/recipes/${ingredient.composable.id}`"
+                        >
+                            show recipe
+                        </Link>
+                    </button>
                 </td>
 
                 <td class="w-px border-t">

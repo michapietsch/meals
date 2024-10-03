@@ -61,51 +61,14 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        $recipe = RecipeModel::create([
-            'title' => 'pizza dough',
-        ]);
+        $recipe = RecipeModel::create([ 'title' => 'pizza dough' ]);
 
-        //            'composition' => [
-        //                [
-        //                    'type' => 'ingredient',
-        //                    'id' => IngredientModel::create([
-        //                        'title' => 'flour',
-        //                        'unit' => 'g',
-        //                        'amount' => 450,
-        //                    ])->id,
-        //                ],
-        //                [
-        //                    'type' => 'ingredient',
-        //                    'id' => IngredientModel::create([
-        //                        'title' => 'water',
-        //                        'unit' => 'ml',
-        //                        'amount' => 250,
-        //                    ])->id,
-        //                ],
-        //                [
-        //                    'type' => 'ingredient',
-        //                    'id' => IngredientModel::create([
-        //                        'title' => 'salt',
-        //                        'unit' => 'teaspoon',
-        //                        'amount' => 1,
-        //                    ])->id,
-        //                ],
-        //                [
-        //                    'type' => 'ingredient',
-        //                    'id' => IngredientModel::create([
-        //                        'title' => 'olive oil',
-        //                        'unit' => 'tablespoon',
-        //                        'amount' => 3,
-        //                    ])->id,
-        //                ],
-        //                [
-        //                    'type' => 'ingredient',
-        //                    'id' => IngredientModel::create([
-        //                        'title' => 'dry yeast',
-        //                        'unit' => 'package',
-        //                        'amount' => 1,
-        //                    ])->id,
-        //                ],
-        //            ],
+        $recipe->composeIngredient(null, 'flour', 450, 'g');
+        $recipe->composeIngredient(null, 'water', 250, 'ml');
+        $recipe->composeIngredient(null, 'salt', 1, 'teaspoon');
+        $recipe->composeIngredient(null, 'olive oil', 3, 'tablespoon');
+        $recipe->composeIngredient(null, 'dry yeast', 1, 'package');
+
+        RecipeModel::create([ 'title' => 'peperoni pizza' ]);
     }
 }

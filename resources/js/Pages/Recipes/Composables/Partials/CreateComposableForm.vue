@@ -22,14 +22,13 @@ const page = usePage()
 const dishes = computed(() => {
     return [
         ...page.props.composables.filter(ingredient => form.name === '' || ingredient.title.toLowerCase().includes(form.name.toLowerCase())),
-        // ...page.props.recipes.filter(recipe => form.name === '' || recipe.name.toLowerCase().includes(form.name.toLowerCase()))
     ];
 });
 
 const createDish = () => {
     form.post(route('recipes.composables.store', route().params.recipe),
         {
-            errorBag: 'createIngredient',
+            errorBag: 'createComposition',
             preserveScroll: true,
         });
 };
@@ -63,9 +62,9 @@ const createDish = () => {
 
                     <template #content>
                         <DropdownLink as="a" v-for="dish in dishes"
-                                      @click="form.name = dish.name; form.id = dish.id; form.type = dish.type"
+                                      @click="form.name = dish.title; form.id = dish.id; form.type = dish.type"
                                       :key="dish.id">
-                            {{ dish.name }} <span
+                            {{ dish.title }} <span
                             class="inline-block ml-2 bg-amber-500 rounded px-1 py-0.5 text-white">
                                 {{ dish.type }}
                         </span>
