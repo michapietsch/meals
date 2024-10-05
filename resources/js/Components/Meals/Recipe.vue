@@ -5,6 +5,7 @@ import Icon from '@/Components/Icon.vue'
 
 import RecipeModel from "@/Objects/Recipe";
 import DangerButton from "@/Components/DangerButton.vue";
+import Amount from "@/Components/Meals/Amount.vue";
 
 const props = defineProps({
     recipe: {
@@ -56,7 +57,8 @@ const deleteIngredient = (ingredient) => {
                 <td class="border-t">
                     <button class="flex items-center px-6 py-4 focus:text-indigo-500"
                             :href="`/ingredients/${ingredient.id}/edit`">
-                        {{ ingredient.amount }} {{ ingredient.unit }}
+                        <Amount v-if="ingredient.amount" :amount="ingredient.amount"/>
+                        <span v-if="ingredient.unit">&nbsp;{{ ingredient.unit }}&nbsp;</span>
                         {{ ingredient.amount && ingredient.unit ? 'of' : '' }} {{ ingredient.composable.title }}
                         <icon v-if="ingredient.deleted_at" name="trash" class="shrink-0 ml-2 w-3 h-3 fill-gray-400"/>
 
