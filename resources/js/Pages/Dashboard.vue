@@ -1,15 +1,10 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import MealModel from "@/Objects/Meal";
 import Meal from "@/Components/Meals/Meal.vue";
-import {computed} from "vue";
 
 const props = defineProps({
     meal: Object,
-    time: String,
 });
-
-const mealObject = computed(() => new MealModel(props.meal.id, props.meal.title, props.meal.dishes));
 
 </script>
 
@@ -24,7 +19,7 @@ const mealObject = computed(() => new MealModel(props.meal.id, props.meal.title,
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-                    <Meal :meal="mealObject"/>
+                    <Meal :meal="props.meal"/>
                 </div>
             </div>
         </div>

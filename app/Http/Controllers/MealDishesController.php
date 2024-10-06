@@ -13,10 +13,7 @@ class MealDishesController extends Controller
 {
     public function create(MealModel $meal)
     {
-        return Inertia::render('Meals/Dishes/Create', [
-            // 'meal' => new MealModel($meal),
-            'ingredients' => IngredientModel::all()->mapInto(Composable::class),
-            'recipes' => RecipeModel::all()->mapInto(Composable::class),
+        return Inertia::render('Meals/Composables/Create', [
             'composables' => collect([
                 ...IngredientModel::all()->mapInto(Composable::class),
                 ...RecipeModel::all()->mapInto(Composable::class),
@@ -34,30 +31,12 @@ class MealDishesController extends Controller
             'unit' => 'nullable|string|max:255',
         ]);
 
-        if ($data['type'] === 'ingredient') {
-            $composable =
-                IngredientModel::firstOrCreate(
-                    ['id' => $data['id']],
-                    [
-                        'name' => $data['name'],
-                        'amount' => $data['amount'],
-                        'unit' => $data['unit'],
-                    ]
-                );
-        }
+        [ $id, $name, $amount, $unit ] = [$data['id'], $data['name'], $data['amount'], $data['unit']];
 
-        if ($data['type'] === 'recipe') {
-            $composable = RecipeModel::find($data['id']);
-        }
-
-        $meal->dishes = [...$meal->dishes, [
-            'type' => $data['type'],
-            'id' => $composable->id,
-            'amount' => $data['amount'],
-            'unit' => $data['unit'],
-        ]];
-
-        $meal->save();
+        match($data['type']) {
+            'ingredient' => $meal->composeIngredient($id, $name, $amount, $unit),
+            'recipe' => $meal->composeRecipe($id, $amount, $unit),
+        };
 
         return redirect()->route('meals.show', $meal);
     }

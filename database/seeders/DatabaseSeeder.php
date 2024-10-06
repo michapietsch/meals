@@ -25,41 +25,11 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        $ingredientBowlOfCereals = IngredientModel::create([
-            'title' => 'cereals',
-            'unit' => 'small bowl',
-            'amount' => 1,
-        ]);
+        $meal = MealModel::create([ 'title' => 'Everyday Breakfast' ]);
 
-        $ingredientCoffee = IngredientModel::create([
-            'title' => 'hot coffee',
-            'unit' => 'cup',
-            'amount' => 1,
-        ]);
-
-        $ingredientApple = IngredientModel::create([
-            'title' => 'apple',
-            'unit' => 'piece',
-            'amount' => 1,
-        ]);
-
-        MealModel::create([
-            'title' => 'Everyday Breakfast',
-            'dishes' => [
-                [
-                    'type' => 'ingredient',
-                    'id' => $ingredientBowlOfCereals->id,
-                ],
-                [
-                    'type' => 'ingredient',
-                    'id' => $ingredientCoffee->id,
-                ],
-                [
-                    'type' => 'ingredient',
-                    'id' => $ingredientApple->id,
-                ],
-            ],
-        ]);
+        $meal->composeIngredient(null, 'cereals', 1, 'small bowl');
+        $meal->composeIngredient(null, 'hot coffee', 1, 'cup');
+        $meal->composeIngredient(null, 'apple', 1);
 
         $recipe = RecipeModel::create([ 'title' => 'pizza dough' ]);
 

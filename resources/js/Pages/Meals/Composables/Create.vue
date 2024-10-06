@@ -1,6 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import CreateDishForm from '@/Pages/Meals/Dishes/Partials/CreateDishForm.vue';
+import CreateComposableForm from '@/Pages/Meals/Composables/Partials/CreateComposableForm.vue';
 import BackButton from "@/Components/BackButton.vue";
 </script>
 
@@ -16,7 +16,7 @@ import BackButton from "@/Components/BackButton.vue";
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
                 <BackButton/>
 
-                <CreateDishForm/>
+                <CreateComposableForm/>
             </div>
         </div>
     </AppLayout>

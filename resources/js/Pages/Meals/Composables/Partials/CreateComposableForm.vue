@@ -22,7 +22,6 @@ const page = usePage()
 const dishes = computed(() => {
     return [
         ...page.props.composables.filter(ingredient => form.name === '' || ingredient.name.toLowerCase().includes(form.name.toLowerCase())),
-        // ...page.props.recipes.filter(recipe => form.name === '' || recipe.name.toLowerCase().includes(form.name.toLowerCase()))
     ];
 });
 
@@ -38,11 +37,11 @@ const createDish = () => {
 <template>
     <FormSection @submitted="createDish">
         <template #title>
-            Dish Details
+            Ingredient Details
         </template>
 
         <template #description>
-            Add a new dish to this meal.
+            Add a new ingredient to this meal.
         </template>
 
         <template #form>
@@ -63,9 +62,9 @@ const createDish = () => {
 
                     <template #content>
                         <DropdownLink as="a" v-for="dish in dishes"
-                                      @click="form.name = dish.name; form.id = dish.id; form.type = dish.type"
+                                      @click="form.name = dish.title; form.id = dish.id; form.type = dish.type"
                                       :key="dish.id">
-                            {{ dish.name }} <span
+                            {{ dish.title }} <span
                             class="inline-block ml-2 bg-amber-500 rounded px-1 py-0.5 text-white">
                                 {{ dish.type }}
                         </span>
