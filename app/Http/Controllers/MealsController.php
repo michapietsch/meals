@@ -9,7 +9,7 @@ class MealsController extends Controller
 {
     public function show(MealModel $meal)
     {
-        return Inertia::render('Dashboard', [
+        return Inertia::render('Meals/Meal', [
             'meal' => $meal->load('composition.composable'),
         ]);
     }

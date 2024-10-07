@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CompositionModel;
 use App\Models\IngredientModel;
 use App\Models\MealModel;
 use App\Models\RecipeModel;
@@ -39,5 +40,12 @@ class MealDishesController extends Controller
         };
 
         return redirect()->route('meals.show', $meal);
+    }
+
+    public function destroy(MealModel $meal, CompositionModel $dish)
+    {
+        $dish->delete();
+
+        return redirect()->back();
     }
 }

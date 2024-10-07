@@ -24,8 +24,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('meals', \App\Http\Controllers\MealsController::class);
-    Route::resource('meals.dishes', \App\Http\Controllers\MealDishesController::class)->except(['destroy']);
-    Route::delete('meals/{meal}/dishes/{type}/{id}', [\App\Http\Controllers\MealDishIngredientController::class, 'destroy'])->name('meals.dishes.destroy');
+    Route::resource('meals.dishes', \App\Http\Controllers\MealDishesController::class);
     Route::resource('recipes', \App\Http\Controllers\RecipesController::class);
     Route::resource('recipes.composables', \App\Http\Controllers\RecipeComposablesController::class);
 });
