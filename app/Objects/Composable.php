@@ -14,12 +14,8 @@ class Composable
     public readonly ?string $unit;
     public readonly ?float $amount;
 
-    public function __construct(Model $composable, ?float $amount = null, ?string $unit = null)
+    public function __construct(Model&ComposableInterface $composable, ?float $amount = null, ?string $unit = null)
     {
-        throw_unless(
-            $composable instanceof IngredientModel || $composable instanceof RecipeModel,
-        );
-
         $this->type =
             match(get_class($composable)) {
                 IngredientModel::class => 'ingredient',

@@ -35,13 +35,13 @@ const deleteDish = (dish) => {
         Meal
     </p>
 
-    <IngredientsList :ingredients="meal.composition" :deleteIngredient="deleteDish"/>
+    <IngredientsList :ingredients="meal.composition" :deleteIngredient="deleteDish" ingredientsLabel="Dishes"/>
 
     <div class="flex items-center justify-between ml-6 mt-4 mb-6">
         <Link class="btn-indigo" :href="`/meals/${meal.id}/dishes/create`">
             <span>Add</span>
 
-            <span class="hidden md:inline">&nbsp;a dish</span>
+            <span class="hidden md:inline">&nbsp;dish</span>
         </Link>
     </div>
 </template>

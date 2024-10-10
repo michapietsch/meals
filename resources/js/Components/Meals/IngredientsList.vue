@@ -1,7 +1,7 @@
 <script setup>
 import Amount from "@/Components/Meals/Amount.vue";
 import DangerButton from "@/Components/DangerButton.vue";
-import {Link, useForm} from "@inertiajs/vue3";
+import {Link} from "@inertiajs/vue3";
 import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
@@ -12,6 +12,11 @@ const props = defineProps({
     deleteIngredient: {
         type: Function,
         required: true
+    },
+    ingredientsLabel: {
+        type: String,
+        required: false,
+        default: 'Ingredients'
     }
 })
 </script>
@@ -21,7 +26,7 @@ const props = defineProps({
         <table class="w-full whitespace-nowrap">
             <thead>
             <tr class="text-left font-bold">
-                <th class="pb-4 pt-6 px-6" colspan="2">Ingredients</th>
+                <th class="pb-4 pt-6 px-6" colspan="2">{{ ingredientsLabel }}</th>
 
                 <th/>
             </tr>

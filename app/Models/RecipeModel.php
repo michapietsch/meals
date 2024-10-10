@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Objects\Ingredient;
+use App\Objects\ComposableInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Support\Collection;
 
-class RecipeModel extends Model
+class RecipeModel extends Model implements ComposableInterface
 {
     use HasFactory;
 
@@ -19,15 +18,6 @@ class RecipeModel extends Model
     protected $casts = [
         'ingredients' => 'array',
     ];
-
-    public function ingredients(): Collection
-    {
-        $ingredientModels = IngredientModel::whereIn('id', collect($this->ingredients)->pluck('id'))->get();
-
-        return collect($this->ingredients)->map(function ($ingredient) use ($ingredientModels) {
-            return new Ingredient($ingredientModels->find($ingredient['id']));
-        });
-    }
 
     public function composition(): MorphMany
     {

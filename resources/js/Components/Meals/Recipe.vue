@@ -41,7 +41,7 @@ const deleteIngredient = (ingredient) => {
         <Link class="btn-indigo" :href="`/recipes/${recipe.id}/composables/create`">
             <span>Add</span>
 
-            <span class="hidden md:inline">&nbsp;an ingredient</span>
+            <span class="hidden md:inline">&nbsp;ingredient</span>
         </Link>
     </div>
 </template>

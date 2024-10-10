@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\RecipeModel;
-use App\Objects\Recipe;
 use Inertia\Inertia;
 
 class RecipesController extends Controller
