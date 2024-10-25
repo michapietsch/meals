@@ -9,5 +9,6 @@
 - [] sort suggestions by frequency of use
 - [] sort units by most often used with ingredient
 - [] list meals with pagination
+- [] ⭐️ reduce all ingredients to flat collection: multiply amounts
 - [] maybe use a full-text search engine for suggestions
 - [] use AI to add or remove a trailing "s" depending on amount and unit when displaying ingredients
