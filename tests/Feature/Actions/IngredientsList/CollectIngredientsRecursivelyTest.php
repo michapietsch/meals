@@ -19,18 +19,16 @@ class CollectIngredientsRecursivelyTest extends TestCase
             ->setRelation(
                 'composition',
                 collect([
-                    $this->composeApples(),
-
                     (new CompositionModel([
                         'composable_id' => 1,
                         'composable_type' => 'recipe',
-                        'amount' => 1,
+                        'amount' => 3,
                         'unit' => 'tray',
                     ]))->setRelation(
                         'composable',
                         $this->recipePizza()
                     )
-                ])
+                ])->filter()
             );
     }
 
@@ -43,18 +41,16 @@ class CollectIngredientsRecursivelyTest extends TestCase
             ]))->setRelation(
                 'composition',
                 collect([
-                    $this->composePepperoni(),
-
                     (new CompositionModel([
                         'composable_id' => 2,
                         'composable_type' => 'recipe',
-                        'amount' => 800,
-                        'unit' => 'g',
+                        'amount' => 2,
+                        'unit' => 'tray',
                     ]))->setRelation(
                         'composable',
                         $this->recipePizzaDough()
                     )
-                ])
+                ])->filter()
             );
     }
 
@@ -129,16 +125,69 @@ class CollectIngredientsRecursivelyTest extends TestCase
     {
         $sut = new CollectIngredientsRecursively();
 
+        $meal = (new MealModel())
+            ->setRelation(
+                'composition',
+                collect([$this->composeApples()])
+            );
+
+        $result =
+            $sut->toFlatCollection($meal)
+                ->pluck('amount');
+
+        $expected = collect([2.0]);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    #[Test]
+    public function handles_ingredient_amount_on_meal_level_correctly()
+    {
+        $sut = new CollectIngredientsRecursively();
+
         $meal = $this->meal();
 
-        $result = $sut->toFlatCollection($meal);
+        $meal->composition->push($this->composeApples());
+        $meal->composition->first()->composable->composition->push($this->composePepperoni());
+
+        $result =
+            $sut->toFlatCollection($meal)
+            ->map(fn ($item) => [
+                $item->amount,
+                $item->composable->title
+            ]);
 
         $expected = collect([
-            $this->composeApples(),
-            $this->composePepperoni(),
-            $this->composeFlour(),
+            [2700.00, 'Flour'],
+            [3.0, 'Peperoni'],
+            [2.0, 'Apples'],
         ]);
 
         $this->assertEquals($expected, $result);
+    }
+
+    #[Test]
+    public function multiplies_recipe_components_with_amount_recursively_with_recipe_produced_amount_of_one()
+    {
+        $sut = new CollectIngredientsRecursively();
+
+        $meal = $this->meal();
+
+        // trays of pepperoni pizza:
+        $meal->composition->last()->amount = 3;
+
+        // one tray requires pizza dough for number of trays:
+        $meal->composition->last()->composable->composition->last()->amount = 2;
+
+        // ... and requires amount of flour:
+        $meal->composition->last()->composable->composition->last()->composable->composition->first()->amount = 450;
+
+        $result = $sut->toFlatCollection($meal);
+
+        $amountOfFlourNeeded = $result->last()->amount;
+
+        $expected = 450 * 2 * 3;
+
+        $this->assertEquals($expected, $amountOfFlourNeeded);
     }
 }

@@ -31,7 +31,11 @@ class DatabaseSeeder extends Seeder
         $meal->composeIngredient(null, 'hot coffee', 1, 'cup');
         $meal->composeIngredient(null, 'apple', 1);
 
-        $recipe = RecipeModel::create([ 'title' => 'pizza dough' ]);
+        $recipe = RecipeModel::create([
+            'title' => 'pizza dough',
+            'produced_amount' => 2,
+            'produced_unit' => 'trays',
+        ]);
 
         $recipe->composeIngredient(null, 'flour', 450, 'g');
         $recipe->composeIngredient(null, 'water', 250, 'ml');

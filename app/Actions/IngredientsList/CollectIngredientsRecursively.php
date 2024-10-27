@@ -2,25 +2,35 @@
 
 namespace App\Actions\IngredientsList;
 
+use App\Models\CompositionModel;
 use App\Models\MealModel;
+use App\Models\RecipeModel;
+use Illuminate\Support\Collection;
 
 class CollectIngredientsRecursively
 {
-    public function toFlatCollection(MealModel $meal)
+    public function toFlatCollection(MealModel|RecipeModel $mealOrRecipe)
     {
-        return $meal
+        return $mealOrRecipe
             ->composition
             ->reduce(
-                function ($carry, $item) {
-                    return $this->reduce($carry, $item);
+                function (Collection $carry, CompositionModel $item) {
+                    $factor =
+                        $item->composable_type === "recipe" ?
+                            $item->amount
+                        : 1.0;
+
+                    return $this->reduce($carry, $item, $factor);
                 },
                 collect()
             );
     }
 
-    private function reduce(&$carry, $item)
+    private function reduce(Collection &$carry, CompositionModel $item, float $factor = 1.0)
     {
-        if ($item->composable_type == "ingredient") {
+        if ($item->composable_type === "ingredient") {
+            $item->amount = $item->amount * $factor;
+
             $carry[] = $item;
 
             return $carry;
@@ -28,8 +38,12 @@ class CollectIngredientsRecursively
 
         $item->composable->composition
             ->reduce(
-                function ($carry, $item) {
-                    return $this->reduce($carry, $item);
+                function (Collection $carry, CompositionModel $item) use ($factor) {
+                    if ($item->composable_type === "recipe") {
+                        $factor = $factor * $item->amount;
+                    }
+
+                    return $this->reduce($carry, $item, $factor);
                 },
                 $carry
             );
